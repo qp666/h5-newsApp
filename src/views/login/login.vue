@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div><h1>我是登录</h1></div>
 </template>
 
 <script>
 export default {
-  name: "appVue",
+  name: "login",
 
   props: {},
   //数据
