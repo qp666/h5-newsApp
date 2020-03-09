@@ -1,10 +1,10 @@
 <template>
-  <router-view></router-view>
+  <div><h1>我是首页</h1></div>
 </template>
 
 <script>
 export default {
-  name: "appVue",
+  name: "vue名",
 
   props: {},
   //数据

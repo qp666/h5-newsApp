@@ -5,9 +5,9 @@
 
     <!--输入框 -->
     <van-field
-      v-model="form.phone"
+      v-model="form.mobile"
       placeholder="请输入手机号"
-      :error-message="valid.phone"
+      :error-message="valid.mobile"
     >
       <template slot="left-icon">
         <span class="iconfont icon-phone02"></span>
@@ -25,11 +25,20 @@
     </van-field>
 
     <!-- 登录按钮 -->
-    <van-button type="info" size="large" @click="doLogin">登录</van-button>
+    <van-button
+      :loading="isLoading"
+      loading-text="登录中..."
+      type="info"
+      size="large"
+      @click="doLogin"
+      >登录</van-button
+    >
   </div>
 </template>
 
 <script>
+import { go_login } from "@/api/login.js";
+import { setToken } from "@/utilis/token.js";
 export default {
   name: "login",
 
@@ -37,12 +46,13 @@ export default {
   //数据
   data() {
     return {
+      isLoading: false, //登录动画的加载效果
       form: {
-        phone: "", //手机
-        code: "" //验证码
+        mobile: "18511111111", //手机
+        code: "246810" //验证码
       },
       valid: {
-        phone: "", //手机
+        mobile: "", //手机
         code: "" //验证码
       }
     };
@@ -51,23 +61,61 @@ export default {
   //方法
   methods: {
     //登录
-    doLogin() {
+    async doLogin() {
+      //async里面的await代码,会跟普通的js代码一样从上往下执行
+      //如果验证手机号验证码格式正确就执行
       if (this.yanz()) {
-        console.log("全部通过");
+        this.isLoading = true; //开启 加载动画效果
+        console.log("格式验证全部正确");
+        try {
+          let res = await go_login(this.form);
+          console.log("登录成功返回:", res);
+          //登录成功后把返回的token 存入 vuex 中
+          this.$store.commit("changeToken", res.data.token);
+          this.$store.commit("changeRefresh_token", res.data.refresh_token);
+
+          setToken("token", res.data.token);
+          setToken("refresh_token", res.data.refresh_token);
+
+          //跳转首页
+            this.$router.push('/home')
+        } catch {
+          console.log("验证失败");
+        } finally {
+          this.isLoading = false; //关闭 加载动画效果
+          console.log("最后执行finally");
+        }
+        //````````````````````````````````````优化前
+        // console.log("格式验证全部正确");
+        // console.log(this.form.phone, this.form.code);
+        // try {
+        //   //try跟catch用来捕捉错误
+        //   let res = await axios({
+        //     url: "http://ttapi.research.itcast.cn/app/v1_0/authorizations",
+        //     method: "post",
+        //     data: { mobile: this.form.phone, code: this.form.code }
+        //   });
+        //   console.log(res);
+        // } catch {
+        //   //如果try里面的内容错了就会执行catch
+        //   console.log("验证失败");
+        // } finally {
+        //   console.log("最后执行finally");
+        // }
       } else {
-        console.log("验证失败");
+        console.log("格式验证失败");
       }
     },
     //验证方法
     yanz() {
       let flag = true;
       //判断手机号格式是否正确
-      if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.form.phone)) {
+      if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.form.mobile)) {
         //如果正确就清空错误提示
-        this.valid.phone = "";
+        this.valid.mobile = "";
       } else {
         flag = false;
-        this.valid.phone = "请输入正确手机号";
+        this.valid.mobile = "请输入正确手机号";
       }
       if (this.form.code.length == 6) {
         //
@@ -96,6 +144,7 @@ export default {
 
 <style scoped lang="less">
 .login {
+  height: 100%;
   background-color: #f5f7f9;
 
   .van-nav-bar {
