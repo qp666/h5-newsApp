@@ -4,7 +4,8 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
-
+import '@/style/base.css'
+import '@/style/icon.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
