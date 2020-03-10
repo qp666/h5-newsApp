@@ -1,0 +1,51 @@
+<template>
+  <div class="loginBox">
+    <!-- 头部导航栏 -->
+    <van-nav-bar title="登录" />
+
+    <!-- 输入框 -->
+
+    <van-field
+      v-model="value1"
+      left-icon="smile-o"
+      placeholder="请输入手机号"
+    />
+
+    <van-field v-model="value1" left-icon="smile-o" placeholder="请输入密码" />
+
+    <van-button type="info" size="large">登录</van-button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "login",
+
+  props: {},
+  //数据
+  data() {
+    return {};
+  },
+  //方法
+  methods: {},
+  //计算属性
+  computed: {},
+  //过滤器
+  filters: {},
+  //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
+  created() {},
+  //渲染页面后执行的生命周期,可以访问dom
+  mounted() {},
+  //侦听器
+  watch: {},
+  //子页面
+  components: {}
+};
+</script>
+
+<style lang="less" scoped>
+.loginBox {
+  height: 100%;
+  background-color: red;
+}
+</style>

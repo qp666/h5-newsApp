@@ -1,32 +1,31 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <router-view></router-view>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+export default {
+  name: "appVue",
 
-#nav {
-  padding: 30px;
+  props: {},
+  //数据
+  data() {
+    return {};
+  },
+  //方法
+  methods: {},
+  //计算属性
+  computed: {},
+  //过滤器
+  filters: {},
+  //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
+  created() {},
+  //渲染页面后执行的生命周期,可以访问dom
+  mounted() {},
+  //侦听器
+  watch: {},
+  //子页面
+  components: {}
+};
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style></style>
