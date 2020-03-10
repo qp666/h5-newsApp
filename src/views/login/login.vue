@@ -78,9 +78,13 @@ export default {
           setToken("refresh_token", res.data.refresh_token);
 
           //跳转首页
-            this.$router.push('/home')
+          this.$router.push("/home");
+
+          this.$toast.success("登录成功");
         } catch {
           console.log("验证失败");
+
+          this.$toast.fail("验证失败");
         } finally {
           this.isLoading = false; //关闭 加载动画效果
           console.log("最后执行finally");
@@ -104,6 +108,7 @@ export default {
         // }
       } else {
         console.log("格式验证失败");
+        this.$toast.fail("验证失败");
       }
     },
     //验证方法
