@@ -79,7 +79,7 @@ export default {
           this.$store.commit("changeRefresh_token", res.data.refresh_token);
 
           this.$toast.success("登陆成功");
-          this.$router.push("/");
+          this.$router.push("/layout");
         } catch {
           this.$toast.fail("手机号或验证码错误");
         } finally {

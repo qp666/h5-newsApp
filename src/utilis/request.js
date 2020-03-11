@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-
+import store from '@/store/index.js'
 
 //克隆axios
 let requestQ = axios.create({
@@ -15,7 +15,13 @@ let requestQ = axios.create({
 // http request 请求 拦截器
 requestQ.interceptors.request.use(
     config => {
+        console.log('token值:', store.state.token);
+        if (store.state.token) {
+            config.headers.Authorization = 'Bearer ' + store.state.token
+        }
         //拦截请求，做统一处理 
+        console.log('请求拦截:', config);
+
         return config
     },
     err => {
