@@ -71,7 +71,7 @@ export default {
       }, 1000);
     },
     onRefresh() {
-      console.log("onR被执行了", this.refreshing);
+      console.log("onR", this.refreshing);
       setInterval(() => {
         this.refreshing = false;
       }, 1000);
