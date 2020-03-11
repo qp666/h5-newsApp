@@ -5,8 +5,8 @@
 
 
 //取token方法
-export function getToken(key) {
-    return window.localStorage.getItem(key) //从window里面取出token
+export function getToken() {
+    return JSON.parse(window.localStorage.getItem('tokenInfo')) //从window里面取出token
 }
 
 //存token方法

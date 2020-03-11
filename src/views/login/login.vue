@@ -74,8 +74,8 @@ export default {
           this.$store.commit("changeToken", res.data.token);
           this.$store.commit("changeRefresh_token", res.data.refresh_token);
 
-          setToken("token", res.data.token);
-          setToken("refresh_token", res.data.refresh_token);
+          setToken("tokenInfo", JSON.stringify(res.data));
+          // setToken("refresh_token", res.data.refresh_token);
 
           //跳转首页
           this.$router.push("/home");
