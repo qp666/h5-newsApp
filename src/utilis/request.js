@@ -17,7 +17,7 @@ let requestQ = axios.create({
 requestQ.interceptors.request.use(
     config => {
 
-
+        // console.log('请求拦截:', config);
         if (store.state.token) {
             config.headers.Authorization = 'Bearer ' + store.state.token
 
