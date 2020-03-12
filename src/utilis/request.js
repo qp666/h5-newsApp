@@ -15,12 +15,12 @@ let requestQ = axios.create({
 // http request 请求 拦截器
 requestQ.interceptors.request.use(
     config => {
-        console.log('token值:', store.state.token);
+        // console.log('token值:', store.state.token);
         if (store.state.token) {
             config.headers.Authorization = 'Bearer ' + store.state.token
         }
         //拦截请求，做统一处理 
-        console.log('请求拦截:', config);
+        // console.log('请求拦截:', config);
 
         return config
     },
@@ -33,7 +33,7 @@ requestQ.interceptors.request.use(
 requestQ.interceptors.response.use(
     response => {
         //拦截响应，做统一处理 
-        console.log('响应拦截:', response);
+        // console.log('响应拦截:', response);
         return response.data
     },
     //接口错误状态处理，也就是说无响应时的处理
