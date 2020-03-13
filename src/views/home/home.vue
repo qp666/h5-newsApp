@@ -27,17 +27,60 @@
             finished-text="没有更多了"
             @load="onLoad(item)"
           >
+            <!--单元格 -->
             <van-cell
               v-for="(itm, idx) in item.list"
               :key="idx"
               :title="itm.title"
-            />
+            >
+              <template slot="title">
+                <!-- 标题div -->
+                <div class="title">
+                  <span>{{ itm.title }}</span>
+                  <img
+                    style="width:116px;height:73px;"
+                    v-if="itm.cover.type == 1"
+                    :src="itm.cover.images"
+                    alt=""
+                  />
+                </div>
+
+                <!-- 图片div -->
+                <van-grid
+                  v-if="itm.cover.type == 3"
+                  :border="false"
+                  :column-num="3"
+                >
+                  <van-grid-item
+                    v-for="(imgitem, index) in itm.cover.images"
+                    :key="index"
+                  >
+                    <van-image style="height:73px;" :src="imgitem" />
+                  </van-grid-item>
+                </van-grid>
+
+                <!-- 作者/评论/时间等信息 -->
+                <div class="info">
+                  <div class="info_3span">
+                    <span class="info-span">{{ itm.aut_name }}</span>
+                    <span class="info-span">{{ itm.comm_count }}评论</span>
+                    <!-- 使用过滤器过滤时间 -->
+                    <span class="info-span">{{
+                      itm.pubdate | filterTime
+                    }}</span>
+                  </div>
+                  <van-icon class="info-more" name="cross" />
+                </div>
+              </template>
+
+              <!-- 单元格结束 -->
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
     <!-- 弹出层 -->
-    <popup :topp="topList" ref="popup" />
+    <popup :myList="topList" ref="popup" />
   </div>
 </template>
 
@@ -63,6 +106,7 @@ export default {
   //方法
   methods: {
     onLoad(item) {
+      // console.log("onL111");
       setTimeout(async () => {
         //如果是上拉刷新进来的话,refreshing就为true//就会清空数组,重新赋值
         if (item.refreshing) {
@@ -108,7 +152,11 @@ export default {
   //计算属性
   computed: {},
   //过滤器
-  filters: {},
+  filters: {
+    // filterTime(val) {
+    //   return dayjs().from(val);
+    // }
+  },
   //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
   async created() {
     let res = await get_channels();
@@ -175,6 +223,28 @@ export default {
     .vantab {
       padding-top: 100px;
       padding-bottom: 50px;
+
+      .title {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .info_3span {
+        float: left;
+        font-size: 12px;
+        color: #999;
+        .info-span {
+          margin-right: 10px;
+        }
+      }
+
+      .info-more {
+        float: right;
+        font-size: 18px;
+        color: #999;
+        border: 1px solid #edeff3;
+        margin-top: 3px;
+      }
     }
   }
 }

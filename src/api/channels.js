@@ -17,6 +17,17 @@ export function get_allChannels() {
     return requestQ({
         url: 'channels',
         method: 'get',
-        
+
+    })
+}
+
+
+//todo  设置用户频道
+export function get_user_Channels(data) {
+
+    return requestQ({
+        url: 'user/channels',
+        method: 'PUT',
+        data
     })
 }
