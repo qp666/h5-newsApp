@@ -37,7 +37,7 @@
       </van-tab>
     </van-tabs>
     <!-- 弹出层 -->
-    <popup :topp='topList' ref="popup" />
+    <popup :topp="topList" ref="popup" />
   </div>
 </template>
 
@@ -95,6 +95,7 @@ export default {
       console.log("onR", item.refreshing);
       item.loading = true;
       item.finished = false;
+      item.pre_time = Date.now();
       this.onLoad(item);
       // setInterval(() => {
       //   this.refreshing = false;

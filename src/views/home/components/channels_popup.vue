@@ -28,7 +28,8 @@
         v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
         :key="index"
         size="large"
-        >标签</van-tag
+      >
+        + 标签</van-tag
       >
     </div>
   </van-popup>
