@@ -2,7 +2,7 @@
 
 import requestQ from '@/utilis/request'
 
-//获取用户信息
+//获取用户频道推荐信息
 
 export function get_articles(params) {
 
@@ -13,11 +13,3 @@ export function get_articles(params) {
     })
 }
 
-export function get_allChannels(params) {
-
-    return requestQ({
-        url: 'channels',
-        method: 'get',
-        params
-    })
-}

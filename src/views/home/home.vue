@@ -30,7 +30,39 @@
               v-for="(itm, idx) in item.topList"
               :key="idx"
               :title="itm.title"
-            />
+            >
+              <!-- 自定义标题内容 -->
+              <template slot="title">
+                <div class="title">
+                  <span>{{ itm.title }}</span>
+                  <img
+                    v-if="itm.cover.type == 1"
+                    :src="itm.cover.images"
+                    style="width:116px;height:73px;"
+                  />
+                </div>
+                <!-- 图片宫格 -->
+                <van-grid
+                  v-if="itm.cover.type == 3"
+                  :border="false"
+                  :column-num="3"
+                >
+                  <van-grid-item
+                    v-for="(ittem, index) in itm.cover.images"
+                    :key="index"
+                  >
+                    <van-image style="height:73px" :src="ittem" />
+                  </van-grid-item>
+                </van-grid>
+                <!-- 作者/评论/时间信息 -->
+                <div class="info">
+                  <span class="info_span">{{ itm.aut_name }}</span>
+                  <span class="info_span">{{ itm.comm_count }}评论</span>
+                  <span class="info_span">{{ itm.pubdate | filterTime }}</span>
+                  <van-icon class="info_icon" name="cross" />
+                </div>
+              </template>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -175,6 +207,25 @@ export default {
   .van-tab__pane {
     padding-top: 100px;
     padding-bottom: 50px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .info {
+    color: #999;
+    span {
+      margin-right: 10px;
+      // color: #999;
+      font-size: 12px;
+    }
+
+    .info_icon {
+      float: right;
+      border: 1px solid red;
+      margin-top: 5px;
+    }
   }
 }
 </style>

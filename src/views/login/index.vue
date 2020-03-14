@@ -50,7 +50,7 @@ export default {
     return {
       isLoading: false, //加载效果
       form: {
-        mobile: "18511111111", //手机
+        mobile: "18960903219", //手机
         code: "246810" //验证码
       },
       valid: {
@@ -79,7 +79,7 @@ export default {
           this.$store.commit("changeRefresh_token", res.data.refresh_token);
 
           this.$toast.success("登陆成功");
-          this.$router.push("/layout");
+          this.$router.push("/home");
         } catch {
           this.$toast.fail("手机号或验证码错误");
         } finally {
