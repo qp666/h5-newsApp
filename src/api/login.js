@@ -1,11 +1,10 @@
 import requestQ from '@/utilis/request'
 
-//获取用户信息
-
+//todo  获取用户登录信息方法
 export function go_login(data) {
 
     return requestQ({
-        url: 'authorizations',
+        url: "authorizations",
         method: 'post',
         data
     })

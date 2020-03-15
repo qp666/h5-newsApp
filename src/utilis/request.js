@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import store from '@/store/index.js'
 
-
 import JSONBig from 'json-bigint'
 
 //克隆axios
@@ -11,6 +10,17 @@ let requestQ = axios.create({
     // headers: { //请求头
     //     token: getToken()
     // }
+
+
+
+
+    /* 
+    - 我们需要在.then之前就用JSON-bigint做转换，所以我们优先想到了响应拦截
+    - 但是在响应拦截里打印响应体的时候，发现早就被JSON.parse转换完了
+    - 所以找了一个配置：transformResponse
+    - 他在响应拦截之前触发，并且他的参数data就是原汁原味服务器返回的JSON字符串，还没做转换
+    - 所以我们，如果想自己用JSON-bigint来对响应体做转换，就该写到这个方法里
+    */
 
     transformResponse: [function (data) {
         // 对 data 进行任意转换处理
@@ -24,34 +34,39 @@ let requestQ = axios.create({
 });
 
 
-// http request 请求 拦截器
+
+//请求拦截
 requestQ.interceptors.request.use(
     config => {
-        // console.log('token值:', store.state.token);
+
+        // console.log('请求拦截:', config);
         if (store.state.token) {
             config.headers.Authorization = 'Bearer ' + store.state.token
+
         }
-        //拦截请求，做统一处理 
-        // console.log('请求拦截:', config);
+        // console.log(config)
+        // console.log(store.state.token)
 
         return config
+
     },
     err => {
         return Promise.reject(err)
     })
 
 
-// http response 响应 拦截器
+//响应拦截
 requestQ.interceptors.response.use(
     response => {
         //拦截响应，做统一处理 
-        // console.log('响应拦截:', response);
+        // return response
         return response.data
     },
     //接口错误状态处理，也就是说无响应时的处理
     error => {
-        return Promise.reject(error) // 返回接口返回的错误信息
+        return Promise.reject(error.response.status) // 返回接口返回的错误信息
     })
 
 
+//抛出requestQ
 export default requestQ

@@ -1,16 +1,12 @@
-//!封装搜索事件的接口
-
 import requestQ from '@/utilis/request'
 
-//获取新闻数组信息
-
-export function get_suggestion(params) {
+//todo 获取联想建议（自动补全）
+export function get_articles(params) {
 
     return requestQ({
-        url: 'suggestion',
+        url: "suggestion",
         method: 'get',
         params
     })
 }
-
 

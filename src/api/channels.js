@@ -1,28 +1,29 @@
 import requestQ from '@/utilis/request'
 
-//获取用户频道列表 弹出层使用
-
+//todo  当前用户频道
 export function get_channels() {
 
     return requestQ({
-        url: 'user/channels',
+        url: "user/channels",
         method: 'get'
     })
 }
 
 
-//获取所有频道列表
+
+//todo  所有频道
 export function get_allChannels() {
 
     return requestQ({
         url: 'channels',
         method: 'get',
-        
+
     })
 }
 
-//设置用户频道列表
-export function edit_allChannels(data) {
+
+//todo  设置用户频道
+export function get_user_Channels(data) {
 
     return requestQ({
         url: 'user/channels',
@@ -31,12 +32,16 @@ export function edit_allChannels(data) {
     })
 }
 
-//删除用户频道
-export function del_allChannels(data) {
+
+
+
+//todo  删除用户频道
+export function del_user_Channels(data) {
 
     return requestQ({
-        url: 'user/channels',
+        url: 'user/channels/' + data,
         method: 'DELETE',
-        data
+
     })
 }
+

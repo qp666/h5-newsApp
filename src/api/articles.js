@@ -1,13 +1,10 @@
-//!封装获取新闻列表的接口
-
 import requestQ from '@/utilis/request'
 
-//获取新闻数组信息
-
+//todo  获取新闻文章数组方法
 export function get_articles(params) {
 
     return requestQ({
-        url: 'http://ttapi.research.itcast.cn/app/v1_1/articles',
+        url: "http://ttapi.research.itcast.cn/app/v1_1/articles",
         method: 'get',
         params
     })
@@ -15,33 +12,36 @@ export function get_articles(params) {
 
 
 
-//对文章不喜欢
-export function dislikes_articles(data) {
+//todo  不喜欢新闻文章方法
+export function dislike_articles(data) {
 
     return requestQ({
-        url: 'article/dislikes',
-        method: 'post',
+        url: "article/dislikes",
+        method: 'POST',
         data
     })
 }
 
 
-//拉黑作者
-export function black_user(data) {
+//todo  举报文章方法
+export function reports_articles(data) {
 
     return requestQ({
-        url: 'user/blacklists',
-        method: 'post',
+        url: "article/reports",
+        method: 'POST',
         data
     })
 }
 
-//举报文章
-export function reports_article(data) {
+
+
+
+//todo 拉黑用户方法
+export function blacklists_articles(data) {
 
     return requestQ({
-        url: 'article/reports',
-        method: 'post',
+        url: "user/blacklists",
+        method: 'POST',
         data
     })
 }
