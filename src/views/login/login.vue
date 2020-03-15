@@ -48,7 +48,7 @@ export default {
     return {
       isLoading: false, //登录动画的加载效果
       form: {
-        mobile: "18111111111", //手机
+        mobile: "18960903219", //手机
         code: "246810" //验证码
       },
       valid: {

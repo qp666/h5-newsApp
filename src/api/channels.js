@@ -31,3 +31,16 @@ export function get_user_Channels(data) {
         data
     })
 }
+
+
+
+
+//todo  删除用户频道
+export function del_user_Channels(data) {
+
+    return requestQ({
+        url: 'user/channels/' + data,
+        method: 'DELETE',
+
+    })
+}

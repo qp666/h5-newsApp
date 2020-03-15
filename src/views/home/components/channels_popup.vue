@@ -52,7 +52,11 @@
 </template>
 
 <script>
-import { get_allChannels, get_user_Channels } from "@/api/channels.js";
+import {
+  get_allChannels,
+  get_user_Channels,
+  del_user_Channels
+} from "@/api/channels.js";
 export default {
   name: "channels_popup",
 
@@ -80,25 +84,26 @@ export default {
       //   // return;
       // });
 
-      
       for (let i = 0; i < this.myList.length; i++) {
-        if(this.myList[i]==item){
-           this.myList.splice(i, 1);
+        if (this.myList[i] == item) {
+          this.myList.splice(i, 1);
         }
       }
 
-      //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
-      let channels = this.myList.slice(1).map((itm, index) => {
-        let obj = {
-          id: itm.id,
-          seq: index + 1
-        };
-        return obj;
-      });
-      console.log(channels);
+      del_user_Channels(item.id);
 
-      //调用接口把channels数组作为对象传进去
-      get_user_Channels({ channels });
+      // //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
+      // let channels = this.myList.slice(1).map((itm, index) => {
+      //   let obj = {
+      //     id: itm.id,
+      //     seq: index + 1
+      //   };
+      //   return obj;
+      // });
+      // console.log(channels);
+
+      // //调用接口把channels数组作为对象传进去
+      // get_user_Channels({ channels });
     },
 
     // ---------------------------
