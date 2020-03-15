@@ -4,9 +4,10 @@
       <van-icon @click="popup" class="top-icon" name="wap-nav" />
 
       <van-search
+        @focus="$router.push('/search')"
         class="top-search"
         shape="round"
-        background="#3194ff"
+        background="pink"
         placeholder="请输入搜索关键词"
       />
       <van-icon class="top-icon" name="search" />
@@ -69,7 +70,11 @@
                       itm.pubdate | filterTime
                     }}</span>
                   </div>
-                  <van-icon class="info-more" name="cross" />
+                  <van-icon
+                    @click="gomore(itm, item.list)"
+                    class="info-more"
+                    name="cross"
+                  />
                 </div>
               </template>
 
@@ -81,6 +86,7 @@
     </van-tabs>
     <!-- 弹出层 -->
     <popup :myList="topList" ref="popup" />
+    <more ref="more" />
   </div>
 </template>
 
@@ -88,6 +94,7 @@
 import { get_channels } from "@/api/channels.js";
 import { get_articles } from "@/api/articles.js";
 import popup from "./components/channels_popup";
+import more from "./components/more";
 export default {
   name: "home",
 
@@ -105,6 +112,14 @@ export default {
   },
   //方法
   methods: {
+    //点击弹出more组件
+    gomore(item, list) {
+      console.log(item, list);
+      this.$refs.more.art_id = item.art_id;
+      this.$refs.more.aut_id = item.aut_id;
+      this.$refs.more.art_list = list;
+      this.$refs.more.show = true;
+    },
     onLoad(item) {
       // console.log("onL111");
       setTimeout(async () => {
@@ -184,7 +199,8 @@ export default {
   watch: {},
   //子页面
   components: {
-    popup
+    popup,
+    more
   }
 };
 </script>
@@ -192,7 +208,7 @@ export default {
 <style scoped lang="less">
 .home {
   .top-home {
-    background-color: #3194ff;
+    background-color: pink;
     padding-left: 10px;
     padding-right: 10px;
     display: flex;

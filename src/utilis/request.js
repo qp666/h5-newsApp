@@ -2,12 +2,34 @@ import axios from 'axios';
 
 import store from '@/store/index.js'
 
+import JSONBig from 'json-bigint'
+
 //克隆axios
 let requestQ = axios.create({
     baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/', //!基地址
     // headers: { //请求头
     //     token: getToken()
     // }
+
+
+
+
+    /* 
+    - 我们需要在.then之前就用JSON-bigint做转换，所以我们优先想到了响应拦截
+    - 但是在响应拦截里打印响应体的时候，发现早就被JSON.parse转换完了
+    - 所以找了一个配置：transformResponse
+    - 他在响应拦截之前触发，并且他的参数data就是原汁原味服务器返回的JSON字符串，还没做转换
+    - 所以我们，如果想自己用JSON-bigint来对响应体做转换，就该写到这个方法里
+    */
+
+    transformResponse: [function (data) {
+        // 对 data 进行任意转换处理
+        // console.log('transformResponse',data);
+
+        // 我把响应体用JSONBig转换一下再返回给你的.then用
+        // 如果你转换了，.then拿到的响应体就是经过大数字处理后的对象了
+        return JSONBig.parse(data);
+    }],
 
 });
 

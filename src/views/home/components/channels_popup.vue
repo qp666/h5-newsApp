@@ -1,6 +1,6 @@
 <template>
   <van-popup
-    @close="isTrue = false"
+    @closed="isTrue = false"
     class="cha_pop"
     closeable
     close-icon="close"
