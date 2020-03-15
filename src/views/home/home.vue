@@ -5,9 +5,12 @@
 
       <van-search
 <<<<<<< HEAD
+<<<<<<< HEAD
         @focus="$router.push('/search')"
         class="top-search"
 =======
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
         class="search"
         v-model="searchValue"
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
@@ -68,6 +71,7 @@
                 <!-- 作者/评论/时间等信息 -->
                 <div class="info">
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <div class="info_3span">
                     <span class="info-span">{{ itm.aut_name }}</span>
                     <span class="info-span">{{ itm.comm_count }}评论</span>
@@ -82,10 +86,15 @@
                     name="cross"
                   />
 =======
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
                   <span class="info_span">{{ itm.aut_name }}</span>
                   <span class="info_span">{{ itm.comm_count }}评论</span>
                   <span class="info_span">{{ itm.pubdate | filterTime }}</span>
                   <van-icon class="info_icon" name="cross" />
+<<<<<<< HEAD
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
+=======
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
                 </div>
               </template>
@@ -103,6 +112,9 @@
 =======
 
     <popup ref="popup" :tpList="menuList" />
+<<<<<<< HEAD
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
+=======
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
   </div>
 </template>
@@ -115,6 +127,9 @@ import popup from "./components/channels_popup";
 import more from "./components/more";
 =======
 import popup from "./components/articles";
+<<<<<<< HEAD
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
+=======
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 export default {
   name: "home",
@@ -134,6 +149,7 @@ export default {
   //方法
   methods: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     //点击弹出more组件
     gomore(item, list) {
       console.log(item, list);
@@ -142,6 +158,8 @@ export default {
       this.$refs.more.art_list = list;
       this.$refs.more.show = true;
 =======
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
     showpop() {
       this.$refs.popup.show = true;
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油

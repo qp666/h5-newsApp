@@ -3,8 +3,11 @@ import axios from 'axios';
 import store from '@/store/index.js'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import JSONBig from 'json-bigint'
 
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 =======
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 //克隆axios
@@ -14,6 +17,7 @@ let requestQ = axios.create({
     //     token: getToken()
     // }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -35,6 +39,8 @@ let requestQ = axios.create({
         return JSONBig.parse(data);
     }],
 
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 =======
 >>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 });
