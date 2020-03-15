@@ -1,6 +1,11 @@
 import requestQ from '@/utilis/request'
 
+<<<<<<< HEAD
 //todo  获取新闻文章数组方法
+=======
+//获取用户频道推荐信息
+
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 export function get_articles(params) {
 
     return requestQ({
@@ -10,6 +15,7 @@ export function get_articles(params) {
     })
 }
 
+<<<<<<< HEAD
 
 
 //todo  不喜欢新闻文章方法
@@ -45,3 +51,5 @@ export function blacklists_articles(data) {
         data
     })
 }
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油

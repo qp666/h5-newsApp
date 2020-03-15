@@ -2,8 +2,11 @@ import axios from 'axios';
 
 import store from '@/store/index.js'
 
+<<<<<<< HEAD
 import JSONBig from 'json-bigint'
 
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 //克隆axios
 let requestQ = axios.create({
     baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/', //!基地址
@@ -11,6 +14,7 @@ let requestQ = axios.create({
     //     token: getToken()
     // }
 
+<<<<<<< HEAD
 
 
 
@@ -31,6 +35,8 @@ let requestQ = axios.create({
         return JSONBig.parse(data);
     }],
 
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 });
 
 

@@ -30,6 +30,7 @@ export function get_user_Channels(data) {
         method: 'PUT',
         data
     })
+<<<<<<< HEAD:src/api/channels.js
 }
 
 
@@ -45,3 +46,6 @@ export function del_user_Channels(data) {
     })
 }
 
+=======
+}
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油:src/api/channel.js

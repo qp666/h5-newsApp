@@ -6,19 +6,25 @@ import layout from '@/views/layout/layout.vue'
 import video from '@/views/video/video.vue'
 import mine from '@/views/mine/mine.vue'
 import question from '@/views/question/question.vue'
+<<<<<<< HEAD
 
 import search from '@/views/search/search.vue'
 //如果不写 index.js 默认会帮我们找到home里面的 index.js或者indxe.vue
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
     name: 'login',
     component: login
+<<<<<<< HEAD
   }, {
     path: '/search',
     name: 'search',
     component: search
+=======
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
   }, {
     path: '/layout',
     name: 'layout',

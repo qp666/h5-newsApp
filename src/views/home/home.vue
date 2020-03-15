@@ -4,8 +4,13 @@
       <van-icon @click="popup" class="top-icon" name="wap-nav" />
 
       <van-search
+<<<<<<< HEAD
         @focus="$router.push('/search')"
         class="top-search"
+=======
+        class="search"
+        v-model="searchValue"
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
         shape="round"
         background="pink"
         placeholder="请输入搜索关键词"
@@ -62,6 +67,7 @@
 
                 <!-- 作者/评论/时间等信息 -->
                 <div class="info">
+<<<<<<< HEAD
                   <div class="info_3span">
                     <span class="info-span">{{ itm.aut_name }}</span>
                     <span class="info-span">{{ itm.comm_count }}评论</span>
@@ -75,6 +81,12 @@
                     class="info-more"
                     name="cross"
                   />
+=======
+                  <span class="info_span">{{ itm.aut_name }}</span>
+                  <span class="info_span">{{ itm.comm_count }}评论</span>
+                  <span class="info_span">{{ itm.pubdate | filterTime }}</span>
+                  <van-icon class="info_icon" name="cross" />
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
                 </div>
               </template>
 
@@ -84,17 +96,26 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
+<<<<<<< HEAD
     <!-- 弹出层 -->
     <popup :myList="topList" ref="popup" />
     <more ref="more" />
+=======
+
+    <popup ref="popup" :tpList="menuList" />
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
   </div>
 </template>
 
 <script>
 import { get_channels } from "@/api/channels.js";
 import { get_articles } from "@/api/articles.js";
+<<<<<<< HEAD
 import popup from "./components/channels_popup";
 import more from "./components/more";
+=======
+import popup from "./components/articles";
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
 export default {
   name: "home",
 
@@ -112,6 +133,7 @@ export default {
   },
   //方法
   methods: {
+<<<<<<< HEAD
     //点击弹出more组件
     gomore(item, list) {
       console.log(item, list);
@@ -119,6 +141,10 @@ export default {
       this.$refs.more.aut_id = item.aut_id;
       this.$refs.more.art_list = list;
       this.$refs.more.show = true;
+=======
+    showpop() {
+      this.$refs.popup.show = true;
+>>>>>>> parent of d806e46... 第四天内容第二遍完成/加油
     },
     onLoad(item) {
       // console.log("onL111");
@@ -199,8 +225,7 @@ export default {
   watch: {},
   //子页面
   components: {
-    popup,
-    more
+    popup
   }
 };
 </script>
