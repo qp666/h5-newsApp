@@ -47,7 +47,11 @@
 
 <script>
 //获取所有频道数据接口
-import { get_allChannels, edit_allChannels } from "@/api/channel.js";
+import {
+  get_allChannels,
+  edit_allChannels,
+  del_allChannels
+} from "@/api/channel.js";
 export default {
   name: "articlesVue",
 
@@ -87,7 +91,7 @@ export default {
       });
 
       //调用设置频道数组接口把数组返回
-      edit_allChannels({ channels });
+      del_allChannels([item.id]);
     },
     //把所有频道里的标签点击添加到 我的频道
     goTop(item) {

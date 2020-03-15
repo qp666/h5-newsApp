@@ -3,6 +3,7 @@
     <div class="top-home">
       <van-icon @click="showpop" class="iconQ" name="wap-nav" />
       <van-search
+        @focus="$router.push('/search')"
         class="search"
         v-model="searchValue"
         shape="round"
@@ -59,7 +60,11 @@
                   <span class="info_span">{{ itm.aut_name }}</span>
                   <span class="info_span">{{ itm.comm_count }}评论</span>
                   <span class="info_span">{{ itm.pubdate | filterTime }}</span>
-                  <van-icon class="info_icon" name="cross" />
+                  <van-icon
+                    @click="goMore(itm, item.topList)"
+                    class="info_icon"
+                    name="cross"
+                  />
                 </div>
               </template>
             </van-cell>
@@ -69,6 +74,7 @@
     </van-tabs>
 
     <popup ref="popup" :tpList="menuList" />
+    <more ref="more" />
   </div>
 </template>
 
@@ -77,6 +83,7 @@ import { get_channels } from "@/api/channel.js";
 
 import { get_articles } from "@/api/articles.js";
 import popup from "./components/articles";
+import more from "./components/more.vue";
 export default {
   name: "homevue",
 
@@ -91,6 +98,14 @@ export default {
   },
   //方法
   methods: {
+    //跳转到举报页面
+    goMore(item, list) {
+      //把值传给more页面
+      this.$refs.more.art_list = list;
+      this.$refs.more.art_id = item.art_id;
+      this.$refs.more.aut_id = item.aut_id;
+      this.$refs.more.show = true;
+    },
     showpop() {
       this.$refs.popup.show = true;
     },
@@ -168,7 +183,8 @@ export default {
   watch: {},
   //子页面
   components: {
-    popup
+    popup,
+    more
   }
 };
 </script>

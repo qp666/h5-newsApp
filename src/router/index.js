@@ -6,11 +6,15 @@ import home from '@/views/home/home.vue'
 import mine from '@/views/mine/mine.vue'
 import video from '@/views/video/video.vue'
 import question from '@/views/question/question.vue'
+import search from '@/views/search/search.vue'
 Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
     component: login
+  },{
+    path: '/search',
+    component: search
   }, {
     path: '/layout',
     name: 'layout',

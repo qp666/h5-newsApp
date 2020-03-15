@@ -30,3 +30,13 @@ export function edit_allChannels(data) {
         data
     })
 }
+
+//删除用户频道
+export function del_allChannels(data) {
+
+    return requestQ({
+        url: 'user/channels',
+        method: 'DELETE',
+        data
+    })
+}

@@ -2,12 +2,24 @@ import axios from 'axios';
 
 import store from '@/store/index.js'
 
+
+import JSONBig from 'json-bigint'
+
 //克隆axios
 let requestQ = axios.create({
     baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/', //!基地址
     // headers: { //请求头
     //     token: getToken()
     // }
+
+    transformResponse: [function (data) {
+        // 对 data 进行任意转换处理
+        // console.log('transformResponse',data);
+
+        // 我把响应体用JSONBig转换一下再返回给你的.then用
+        // 如果你转换了，.then拿到的响应体就是经过大数字处理后的对象了
+        return JSONBig.parse(data);
+    }],
 
 });
 
