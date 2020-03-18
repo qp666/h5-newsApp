@@ -4,7 +4,7 @@
       <van-search
         class="top-search"
         v-model="searchValue"
-        @input="goSearch"
+        @input="search"
         background="pink"
         @keydown.enter="goSearchResult(searchValue)"
       />
@@ -65,44 +65,83 @@ export default {
       searchValue: "", //搜索框的值
       sList: [], //联想词汇数组
       // historyList: getToken("historyList") ? getToken("historyList") : [], //历史记录数组
-      goSearch: stop_shake(this.search, 500),
-      historyList: getToken("historyList") || [] //历史记录数组
-      // tiemID: "" //防抖
+
+      historyList: getToken("historyList") || [], //历史记录数组
+      tiemID: "" //防抖
     };
   },
   //方法
   methods: {
     //输入框的搜索事件
-    async search() {
-      if (this.searchValue == "") {
-        // this.sList.splice(0);
-        this.sList = [];
-        return;
-      }
-      //   this.isTrue = false;
-      let res = await get_articles({
-        q: this.searchValue
-      });
+   async search() {
+      //清除定时器
+      clearTimeout(this.tiemID);
 
-      this.sList = res.data.options;
-      console.log("搜索框输入返回词组:", res);
+      this.tiemID = setTimeout(async () => {
+        if (this.searchValue == "") {
+          // this.sList.splice(0);
+          this.sList = [];
+          return;
+        }
+        //   this.isTrue = false;
+        let res = await get_articles({
+          q: this.searchValue
+        });
 
-      //把数组里的每一项给变成一个对象
-      this.sList = this.sList.map(item => {
-        //对象里的xinitem就是item转小写以后匹配的span加红色的item
-        let newItem = item
-          .toLowerCase()
-          .replace(
-            this.searchValue.toLowerCase(),
-            `<span style="color:red">${this.searchValue}</span>`
-          );
+        this.sList = res.data.options;
+        console.log("搜索框输入返回词组:", res);
 
-        //把新item跟老item返回出去替换sList
-        return {
-          newItem,
-          oldItem: item
-        };
-      });
+        //把数组里的每一项给变成一个对象
+        this.sList = this.sList.map(item => {
+          //对象里的xinitem就是item转小写以后匹配的span加红色的item
+          let newItem = item
+            .toLowerCase()
+            .replace(
+              this.searchValue.toLowerCase(),
+              `<span style="color:red">${this.searchValue}</span>`
+            );
+
+          //把新item跟老item返回出去替换sList
+          return {
+            newItem,
+            oldItem: item
+          };
+        });
+      }, 500);
+
+      // stop_shake(async function() {
+      //   // console.log("456");
+
+      //   if (this.searchValue == "") {
+      //     // this.sList.splice(0);
+      //     this.sList = [];
+      //     return;
+      //   }
+      //   //   this.isTrue = false;
+      //   let res = await get_articles({
+      //     q: this.searchValue
+      //   });
+
+      //   this.sList = res.data.options;
+      //   console.log("搜索框输入返回词组:", res);
+
+      //   //把数组里的每一项给变成一个对象
+      //   this.sList = this.sList.map(item => {
+      //     //对象里的xinitem就是item转小写以后匹配的span加红色的item
+      //     let newItem = item
+      //       .toLowerCase()
+      //       .replace(
+      //         this.searchValue.toLowerCase(),
+      //         `<span style="color:red">${this.searchValue}</span>`
+      //       );
+
+      //     //把新item跟老item返回出去替换sList
+      //     return {
+      //       newItem,
+      //       oldItem: item
+      //     };
+      //   });
+      // }, 500);
     },
     //历史记录全部删除
     delSearch() {
@@ -180,10 +219,6 @@ export default {
 
     .content {
       .history_item {
-        // width: 75%;
-        overflow: hidden;
-        // white-space: nowrap;
-        // text-overflow: ellipsis;
         padding: 20px;
         color: black;
         display: flex;

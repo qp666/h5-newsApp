@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import { setToken, getToken } from "@/utilis/token.js";
 import { get_channels } from "@/api/channels.js";
 import { get_articles } from "@/api/articles.js";
 import popup from "./components/channels_popup";
@@ -174,24 +175,53 @@ export default {
   },
   //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
   async created() {
-    let res = await get_channels();
-    console.log("获取顶部导航栏的数组:", res);
-    this.topList = res.data.channels;
-    //  循环遍历topList数组 ,给每个元素定义属性
-    this.topList.forEach(item => {
-      //用this.$set定义的属性,会有响应式的特点,会被页面接收
-      this.$set(item, "loading", false);
-      this.$set(item, "refreshing", false);
-      this.$set(item, "finished", false);
-      this.$set(item, "list", []);
+    if (this.$store.state.token) {
+      let res = await get_channels();
+      console.log("获取顶部导航栏的数组:", res);
+      this.topList = res.data.channels;
+      //  循环遍历topList数组 ,给每个元素定义属性
+      this.topList.forEach(item => {
+        //用this.$set定义的属性,会有响应式的特点,会被页面接收
+        this.$set(item, "loading", false);
+        this.$set(item, "refreshing", false);
+        this.$set(item, "finished", false);
+        this.$set(item, "list", []);
 
-      // item.loading = false;
-      // item.refreshing = false;
-      // item.finished = false;
+        // item.loading = false;
+        // item.refreshing = false;
+        // item.finished = false;
 
-      //不用在页面显示,不用在标签内显示,所以不用渲染出来
-      item.pre_time = Date.now();
-    });
+        //不用在页面显示,不用在标签内显示,所以不用渲染出来
+        item.pre_time = Date.now();
+      });
+    } else {
+      //判断没有登录是不是第一次进入
+      if (getToken("pdList")) {
+        this.topList = getToken("pdList");
+      } else {
+        //没有登录是第一次进入
+        let res2 = await get_channels();
+        console.log("获取顶部导航栏的数组:", res2);
+        this.topList = res2.data.channels;
+        //  循环遍历topList数组 ,给每个元素定义属性
+        this.topList.forEach(item => {
+          //用this.$set定义的属性,会有响应式的特点,会被页面接收
+          this.$set(item, "loading", false);
+          this.$set(item, "refreshing", false);
+          this.$set(item, "finished", false);
+          this.$set(item, "list", []);
+
+          // item.loading = false;
+          // item.refreshing = false;
+          // item.finished = false;
+
+          //不用在页面显示,不用在标签内显示,所以不用渲染出来
+          item.pre_time = Date.now();
+        });
+
+        setToken("pdList", JSON.stringify(this.topList));
+      }
+    }
   },
   //渲染页面后执行的生命周期,可以访问dom
   mounted() {},

@@ -8,6 +8,8 @@ import mine from '@/views/mine/mine.vue'
 import question from '@/views/question/question.vue'
 
 import search from '@/views/search/search.vue'
+import detail from '@/views/detail/detail.vue'
+import searchResult from '@/views/results/searchResult.vue'
 //如果不写 index.js 默认会帮我们找到home里面的 index.js或者indxe.vue
 Vue.use(VueRouter)
 
@@ -15,10 +17,24 @@ const routes = [{
     path: '/',
     name: 'login',
     component: login
+  },
+  {
+    path: '/checkLogin',
+    name: 'login',
+    component: login
+  }, {
+    path: '/detail/:aut_id',
+    name: 'detail',
+    component: detail
+  }, {
+    path: '/searchResult/:key',
+    name: 'searchResult',
+    component: searchResult
   }, {
     path: '/search',
     name: 'search',
-    component: search
+    component: search,
+
   }, {
     path: '/layout',
     name: 'layout',

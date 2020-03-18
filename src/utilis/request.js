@@ -3,7 +3,9 @@ import axios from 'axios';
 import store from '@/store/index.js'
 
 import JSONBig from 'json-bigint'
-
+import {
+    setToken
+} from '@/utilis/token.js'
 //克隆axios
 let requestQ = axios.create({
     baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/', //!基地址
@@ -34,6 +36,9 @@ let requestQ = axios.create({
 });
 
 
+let requestQ2 = axios.create({
+    baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/', //!基地址
+})
 
 //请求拦截
 requestQ.interceptors.request.use(
@@ -63,8 +68,52 @@ requestQ.interceptors.response.use(
         return response.data
     },
     //接口错误状态处理，也就是说无响应时的处理
-    error => {
-        return Promise.reject(error.response.status) // 返回接口返回的错误信息
+    async error => {
+
+
+        // console.dir(error)
+
+        //如果是401报错就是token不对
+        if (error.response.status == 401) {
+
+            //refresh_token调用重新获取新token
+            console.log('1', store.state.refresh_token);
+
+
+            let res = await requestQ2({
+                url: "http://ttapi.research.itcast.cn/app/v1_0/authorizations",
+                method: 'PUT',
+                headers: {
+                    Authorization: 'Bearer ' + store.state.refresh_token
+                }
+            })
+
+            //把请求到的新的token存起来替换之前的
+            store.commit('changeToken', res.data.data.token);
+            console.log('2', res.data.data.token);
+
+            let obj = {
+                token: res.data.data.token,
+                refresh_token: store.state.refresh_token
+            }
+
+
+            //把新的tokeninfo存到本地存储
+            setToken("tokenInfo", JSON.stringify(obj))
+            // console.log(res);
+
+            //再重新发送一次上次报错的请求(这次已经更新token了)
+            let res2 = await requestQ(error.config)
+            //error.config里面是上次请求的请求体
+            //把重新发送请求后的res2返回出去
+            return res2
+            // return '123'
+        } else {
+            //如果不是401就是其他错误,正常返回
+
+            return Promise.reject(error) // 返回接口返回的错误信息
+        }
+
     })
 
 

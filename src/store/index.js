@@ -9,8 +9,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: getToken() && getToken().token,
-    refresh_token: getToken() && getToken().refresh_token
+    token: getToken('tokenInfo') && getToken('tokenInfo').token,
+    refresh_token: getToken('tokenInfo') && getToken('tokenInfo').refresh_token
   },
   mutations: {
     //修改token的方法

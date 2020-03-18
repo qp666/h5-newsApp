@@ -26,9 +26,16 @@ Vue.filter('filterTime', function (val) {
 
 Vue.use(Vant);
 
+
+
+//导入自己创建的跳转登录方法
+import myLogin from '@/utilis/myLogin.js'
+// Vue.use(myLogin);
+
 Vue.config.productionTip = false
 
 new Vue({
+  myLogin,
   router,
   store,
   render: h => h(App)

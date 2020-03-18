@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { setToken } from "@/utilis/token.js";
 import {
   get_allChannels,
   get_user_Channels,
@@ -75,73 +76,82 @@ export default {
   methods: {
     //我的频道的删除事件
     delCha(item) {
-      console.log(item);
-      // this.notAllList.push(item);
-      // this.myList.forEach(im => {
-      //   if (im == item) {
-      //     this.myList.splice(im, 1);
-      //   }
-      //   // return;
-      // });
-
-      for (let i = 0; i < this.myList.length; i++) {
-        if (this.myList[i] == item) {
-          this.myList.splice(i, 1);
+      //如果有token就是有登录,有登录就发送请求
+      if (this.$store.state.token) {
+        for (let i = 0; i < this.myList.length; i++) {
+          if (this.myList[i] == item) {
+            this.myList.splice(i, 1);
+          }
         }
+
+        del_user_Channels(item.id);
+      } else {
+        //如果没登录就删除本地的
+        for (let i = 0; i < this.myList.length; i++) {
+          if (this.myList[i] == item) {
+            this.myList.splice(i, 1);
+          }
+        }
+        //删完后把数组存入本地替换
+        setToken("pdList", JSON.stringify(this.myList));
       }
-
-      del_user_Channels(item.id);
-
-      // //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
-      // let channels = this.myList.slice(1).map((itm, index) => {
-      //   let obj = {
-      //     id: itm.id,
-      //     seq: index + 1
-      //   };
-      //   return obj;
-      // });
-      // console.log(channels);
-
-      // //调用接口把channels数组作为对象传进去
-      // get_user_Channels({ channels });
     },
 
     // ---------------------------
     //把全部频道的数据点击的频道增加到我的频道
     getmyList(item) {
-      //用this.$set定义的属性,会有响应式的特点,会被页面接收
-      this.$set(item, "loading", false);
-      this.$set(item, "refreshing", false);
-      this.$set(item, "finished", false);
-      this.$set(item, "list", []);
+      //如果有token就是有登录,有登录就发送请求
+      if (this.$store.state.token) {
+        //用this.$set定义的属性,会有响应式的特点,会被页面接收
+        this.$set(item, "loading", false);
+        this.$set(item, "refreshing", false);
+        this.$set(item, "finished", false);
+        this.$set(item, "list", []);
 
-      // item.loading = false;
-      // item.refreshing = false;
-      // item.finished = false;
+        //不用在页面显示,不用在标签内显示,所以不用渲染出来
+        item.pre_time = Date.now();
 
-      //不用在页面显示,不用在标签内显示,所以不用渲染出来
-      item.pre_time = Date.now();
+        //显示到我的频道
+        this.myList.push(item);
 
-      //显示到我的频道
-      this.myList.push(item);
-      //从全部频道中删除已经添加到我的频道的数据
-      // this.noAllList.forEach(im => {
-      //   if (im == item) {
-      //     this.noAllList.splice(im, 1);
-      //   }
-      //   // return;
-      // });
-      //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
-      let channels = this.myList.slice(1).map((itm, index) => {
-        let obj = {
-          id: itm.id,
-          seq: index + 1
-        };
-        return obj;
-      });
+        //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
+        let channels = this.myList.slice(1).map((itm, index) => {
+          let obj = {
+            id: itm.id,
+            seq: index + 1
+          };
+          return obj;
+        });
 
-      //调用接口把channels数组作为对象传进去
-      get_user_Channels({ channels });
+        //调用接口把channels数组作为对象传进去
+        get_user_Channels({ channels });
+      } else {
+        //没有登录就保存到本地
+        //用this.$set定义的属性,会有响应式的特点,会被页面接收
+        this.$set(item, "loading", false);
+        this.$set(item, "refreshing", false);
+        this.$set(item, "finished", false);
+        this.$set(item, "list", []);
+
+        //不用在页面显示,不用在标签内显示,所以不用渲染出来
+        item.pre_time = Date.now();
+
+        //显示到我的频道
+        this.myList.push(item);
+
+        //创建一个数组channels 等于 我的频道的数据去掉第一个(推荐)通过map方法返回的数组
+        // let channels = this.myList.slice(1).map((itm, index) => {
+        //   let obj = {
+        //     id: itm.id,
+        //     seq: index + 1
+        //   };
+        //   return obj;
+        // });
+
+        // console.log(this.myList);
+
+        setToken("pdList", JSON.stringify(this.myList));
+      }
     }
   },
   //计算属性
@@ -165,7 +175,6 @@ export default {
   filters: {},
   //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
   async created() {
-    //!过滤包含已有频道
     let res = await get_allChannels();
     console.log("所有频道数据", res);
     //!1.获取所有频道

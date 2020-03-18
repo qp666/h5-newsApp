@@ -77,8 +77,15 @@ export default {
           setToken("tokenInfo", JSON.stringify(res.data));
           // setToken("refresh_token", res.data.refresh_token);
 
-          //跳转首页
-          this.$router.push("/home");
+          console.log(this.$route.path);
+
+          //如果是从未登录页面传送过来的话就登录后传送回去
+          if (this.$route.path == "/checkLogin") {
+            this.$router.back();
+          } else {
+            //跳转首页
+            this.$router.push("/home");
+          }
 
           this.$toast.success("登录成功");
         } catch {
