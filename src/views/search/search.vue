@@ -153,7 +153,8 @@ export default {
 
 <style lang="less">
 .search {
-  background-color: #fff;
+  height: 100%;
+  background-color: #ccc;
   .search-top {
     padding-right: 5px;
     background-color: pink;
@@ -169,6 +170,7 @@ export default {
   }
 
   .history {
+    background-color: #fff;
     .title {
       padding-left: 10px;
       padding-right: 10px;

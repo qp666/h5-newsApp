@@ -17,6 +17,7 @@
           v-for="(item, index) in resultsList"
           :key="index"
           :title="item.title"
+          @click="$router.push(`/detail/${item.art_id}`)"
         >
           <template slot="title">
             <!-- 标题div -->

@@ -30,7 +30,13 @@ let requestQ = axios.create({
 
         // 我把响应体用JSONBig转换一下再返回给你的.then用
         // 如果你转换了，.then拿到的响应体就是经过大数字处理后的对象了
-        return JSONBig.parse(data);
+        try {
+            //转换json时加try/catch ,因为有可能服务器返回的不是JSon字符串,如果不加trycatch,把不是JSON字符串的用JSONBIG.parse就会报错
+            return JSONBig.parse(data);
+        } catch {
+            //如果报错,就把正常响应返回
+            return data
+        }
     }],
 
 });
@@ -56,6 +62,7 @@ requestQ.interceptors.request.use(
 
     },
     err => {
+
         return Promise.reject(err)
     })
 

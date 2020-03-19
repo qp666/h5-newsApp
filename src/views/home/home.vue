@@ -33,6 +33,7 @@
               v-for="(itm, idx) in item.list"
               :key="idx"
               :title="itm.title"
+                @click="$router.push(`/detail/${itm.art_id}`)"
             >
               <template slot="title">
                 <!-- 标题div -->

@@ -45,3 +45,81 @@ export function blacklists_articles(data) {
         data
     })
 }
+
+
+
+//todo 获取新闻文章详情
+export function this_articles(params) {
+
+    return requestQ({
+        url: `articles/${params.art_id}`,
+        method: 'GET',
+
+    })
+}
+
+
+
+//todo  收藏文章
+export function shouC_art(data) {
+
+    return requestQ({
+        url: 'article/collections',
+        method: 'POST',
+        data
+
+    })
+}
+
+//todo  取消收藏文章
+export function no_shouC_art(data) {
+
+    return requestQ({
+        url: `article/collections/${data.art_id}`,
+        method: 'DELETE',
+
+    })
+}
+
+//todo  文章点赞
+export function like_art(data) {
+
+    return requestQ({
+        url: 'article/likings',
+        method: 'POST',
+        data
+
+    })
+}
+
+//todo  取消文章点赞
+export function no_like_art(data) {
+
+    return requestQ({
+        url: `article/likings/${data.art_id}`,
+        method: 'DELETE',
+
+    })
+}
+
+
+//todo  对文章不喜欢
+export function disLike_art(data) {
+
+    return requestQ({
+        url: 'article/dislikes',
+        method: 'POST',
+        data
+
+    })
+}
+
+//todo  取消对文章不喜欢
+export function no_disLike_art(data) {
+
+    return requestQ({
+        url: `article/dislikes/${data.art_id}`,
+        method: 'DELETE',
+
+    })
+}
