@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <router-view></router-view>
     <van-tabbar v-model="active">
       <van-tabbar-item to="/home" icon="home-o">主页</van-tabbar-item>
@@ -38,4 +38,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.layout {
+  height: 100%;
+}
+</style>

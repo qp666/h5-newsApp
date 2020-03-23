@@ -12,6 +12,7 @@
     <h2 class="title">{{ artList.title }}</h2>
     <!-- 用户信息 -->
 
+
     <van-cell>
       <template slot="title">
         <div class="user_i">
@@ -62,7 +63,12 @@
 
     <h3 style="padding:10px;">猜你喜欢</h3>
     <comment ref="comment" />
-    <deSearch :is_collected.sync="artList.is_collected" ref="deSearch" />
+    <deSearch
+      :booler="true"
+      :is_collected.sync="artList.is_collected"
+      ref="deSearch"
+    />
+    <reply ref="reply" />
   </div>
 </template>
 
@@ -77,6 +83,7 @@ import {
 import { follow_no, follow_user } from "@/api/user.js";
 import comment from "./components/comment";
 import deSearch from "./components/deSearch";
+import reply from "./components/reply";
 export default {
   name: "detailVue",
 
@@ -165,7 +172,8 @@ export default {
   //子页面
   components: {
     comment,
-    deSearch
+    deSearch,
+    reply
   }
 };
 </script>
@@ -223,7 +231,7 @@ export default {
     padding: 10px;
     pre {
       width: 100%;
-      code {
+      * {
         cursor: pointer;
         word-break: break-all;
         white-space: pre-wrap;

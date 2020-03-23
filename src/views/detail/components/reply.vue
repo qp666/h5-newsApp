@@ -1,5 +1,14 @@
 <template>
-  <div class="comment">
+  <van-popup
+    class="reply"
+    round
+    closeable
+    close-icon-position="top-left"
+    v-model="show"
+    position="bottom"
+    :style="{ height: '50%' }"
+  >
+    <div class="title1">{{ plItem.reply_count }}条评论</div>
     <van-list
       v-model="loading"
       :finished="finished"
@@ -17,13 +26,6 @@
               <div class="speak">{{ item.content }}</div>
               <div class="bot">
                 <span class="bot_time">{{ item.pubdate | filterTime }}</span>
-                <van-tag
-                  @click="goReply(item)"
-                  round
-                  class="bot_tag"
-                  color="#eff7f8"
-                  >回复{{ item.reply_count }}</van-tag
-                >
               </div>
             </div>
             <!-- 点赞 -->
@@ -48,34 +50,33 @@
         </template>
       </van-cell>
     </van-list>
-  </div>
+    <!-- 把当前点击行的评论id传过去 -->
+    <deSearch :booler="false" :com_id="plItem.com_id" ref="deSearch" />
+  </van-popup>
 </template>
 
 <script>
+import deSearch from "./deSearch";
 import bus from "@/utilis/bus.js";
-
 import { get_comments, likings_comments } from "@/api/comment.js";
 export default {
-  name: "commentVue",
+  name: "replyVue",
 
   props: {},
   //数据
   data() {
     return {
+      show: false,
       list: [],
       loading: false,
       finished: false,
+      plItem: {}, //点击的评论item
       //判断是不是最后一页评论
-      offset: undefined
+      offset: undefined //评论item
     };
   },
   //方法
   methods: {
-    //评论弹出层
-    goReply(item) {
-      bus.$emit("showR", item); //把这一行的数据传到reply ,这样既有评论id可以用来查询,也有其他的数据方便调用
-     
-    },
     //对评论点赞方法
     async zan(index, id) {
       if (this.checkLogin()) {
@@ -98,17 +99,17 @@ export default {
     },
     async onLoad() {
       let res = await get_comments({
-        type: "a",
-        source: this.$route.params.art_id, //文章id
+        type: "c",
+        source: this.plItem.com_id.toString(), //文章id
         offset: this.offset, //传下一页
         limit: 10 //页容量默认为10
       });
-      console.log("当前文章评论详情:", res);
+      console.log("当前评论回复详情:", res);
 
       this.offset = res.data.last_id; //把收到的下一页id替换
       this.list.push(...res.data.results);
-
-      bus.$emit("total_count", res.data.total_count);
+      this.title = res.data.total_count;
+      // bus.$emit("total_count", res.data.total_count);
       //   this.list.total_count;
 
       if (res.data.end_id == res.data.last_id) {
@@ -117,18 +118,6 @@ export default {
       } else {
         this.loading = false;
       }
-
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      // for (let i = 0; i < 10; i++) {
-      //   this.list.push(this.list.length + 1);
-      // }
-      // // 加载状态结束
-      // this.loading = false;
-      // // 数据全部加载完成
-      // if (this.list.length >= 40) {
-      //   this.finished = true;
-      // }
     }
   },
   //计算属性
@@ -137,9 +126,21 @@ export default {
   filters: {},
   //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
   created() {
-    //接收bus传过来的数据
-    bus.$on("newCmt", data => {
-      this.list.unshift(data);
+    bus.$on("showR", data => {
+      this.show = true;
+      console.log("评论回复里的数据:", data);
+      this.plItem = data;
+
+      this.list = [];
+      this.loading = false;
+      this.finished = false;
+      //判断是不是最后一页评论
+      this.offset = undefined; //评论item
+    });
+
+    bus.$on("newPL", data => {
+      this.list.unshift(data); //给评论数组追加
+      this.plItem.reply_count++; //评论回复总数量加1
     });
   },
   //渲染页面后执行的生命周期,可以访问dom
@@ -147,12 +148,18 @@ export default {
   //侦听器
   watch: {},
   //子页面
-  components: {}
+  components: {
+    deSearch
+  }
 };
 </script>
 
 <style lang="less">
-.comment {
+.reply {
+  .title1 {
+    text-align: center;
+    padding-top: 20px;
+  }
   margin-top: 40px;
   margin-bottom: 55px;
   .commentBB {

@@ -10,16 +10,21 @@
       @search="addPL"
     />
     <div class="doS_icon">
-      <van-icon class="icon_2" name="comment-o" />
-      <van-icon
-        @click="shouC"
-        v-if="is_collected"
-        color="red"
-        class="icon_2"
-        name="star"
-      />
-      <van-icon @click="shouC" v-else class="icon_2" name="star-o" />
-      <van-icon class="icon_2" name="share" />
+      <van-icon class="icon_2"  name="comment-o">
+        <span v-if="booler" class="icon_span">{{ plcount }}</span></van-icon
+      >
+
+      <div v-if="booler">
+        <van-icon
+          @click="shouC"
+          v-if="is_collected"
+          color="red"
+          class="icon_2"
+          name="star"
+        />
+        <van-icon @click="shouC" v-else class="icon_2" name="star-o" />
+        <van-icon class="icon_2" name="share" />
+      </div>
     </div>
   </div>
 </template>
@@ -33,12 +38,15 @@ export default {
   name: "deSearch",
 
   props: {
-    is_collected: {}
+    is_collected: {}, //是否收藏
+    booler: {}, //是否是评论回复界面
+    com_id: {} //评论id
   },
   //数据
   data() {
     return {
-      value: "" //搜索框的值
+      value: "", //搜索框的值
+      plcount: 0
     };
   },
   //方法
@@ -47,17 +55,34 @@ export default {
     async addPL() {
       //判断 登录了与  输入不为空 在发送请
       if (this.checkLogin() && this.value.trim() != "") {
-        let res = await add_comments({
-          //文章id
-          target: this.$parent.artList.art_id,
-          content: this.value
-        });
-        this.value = ""; //发送请求完评论归空
+        //如果是评论文章就是true
+        if (this.booler) {
+          let res = await add_comments({
+            //文章id
+            target: this.$parent.artList.art_id,
+            content: this.value
+          });
+          this.value = ""; //发送请求完评论归空
 
-        console.log("文章评论返回:", res);
-        //把返回来的值传入bus,输送到兄弟组件comment
-        bus.$emit("newCmt", res.data.new_obj);
-        this.$toast.success("评论成功!");
+          console.log("文章评论返回:", res);
+          this.plcount++;
+          //把返回来的值传入bus,输送到兄弟组件comment
+          bus.$emit("newCmt", res.data.new_obj);
+          this.$toast.success("评论成功!");
+        } else {
+          //评论回复就是false
+          let res = await add_comments({
+            //评论id
+            target: this.com_id,
+            content: this.value,
+            art_id: this.$route.params.art_id
+          });
+          this.value = ""; //发送请求完评论归空
+          this.$toast.success("回复评论成功!");
+          //评论回复成功后
+          bus.$emit("newPL", res.data.new_obj);
+          console.log("回复评论返回:", res);
+        }
       } else {
         this.$toast.fail("输入为空!");
       }
@@ -91,7 +116,11 @@ export default {
   filters: {},
   //进入页面就执行的生命周期,不能访问dom,可以访问data与methods
   created() {
-       console.log('created',this.is_collected);
+    // console.log("created", this.is_collected);
+    bus.$on("total_count", data => {
+      // console.log(data);
+      this.plcount = data;
+    });
   },
   //渲染页面后执行的生命周期,可以访问dom
   mounted() {},
@@ -118,9 +147,25 @@ export default {
   }
 
   .doS_icon {
+    display: flex;
     i.icon_2.van-icon {
       margin-right: 25px;
       font-size: 20px;
+    }
+
+    span.icon_span {
+      position: absolute;
+      top: -15px;
+      right: -17px;
+      font-size: 9px;
+      background-color: red;
+      border-radius: 50%;
+      color: #fff;
+      width: 26px;
+      height: 23px;
+      display: block;
+      text-align: center;
+      line-height: 20px;
     }
   }
 }
