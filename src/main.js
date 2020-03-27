@@ -6,6 +6,10 @@ import store from './store'
 import './style/base.css'
 import './style/icon.css'
 
+//导入适配rem
+// {/* <script src="../node_modules/amfe-flexible/index.js"></script> */}
+import 'amfe-flexible/index.js'
+
 //导入vant
 import Vant from 'vant';
 import 'vant/lib/index.css';

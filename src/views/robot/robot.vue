@@ -25,7 +25,7 @@
     </div>
     <!-- 底部搜索框 -->
     <van-search
-      @keydown.enter="send"
+      @keydown.enter.prevent="send"
       left-icon="false"
       show-action
       action-text="发送"

@@ -15,9 +15,8 @@ import searchResult from '@/views/results/searchResult.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'login',
-    component: login
+    path: '',
+    redirect: '/home'
   },
   {
     path: '/checkLogin',

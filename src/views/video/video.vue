@@ -1,5 +1,5 @@
 <template>
-  <div><h1>我是视频页面</h1></div>
+  <div class="video"><h1 class="h11">我是视频页面</h1></div>
 </template>
 
 <script>
@@ -28,4 +28,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="less">
+.video {
+  .h11 {
+    width: 300px;
+    background-color: red;
+  }
+}
+</style>
